@@ -9,35 +9,49 @@
 #import <Foundation/Foundation.h>
 #import "Dice.h"
 #import "InputCollector.h"
+#import "GameController.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
+        // GameController instance
+        GameController *controller = [GameController new];
+        
         // Make five instances of the Dice class
         Dice *dice1 = [Dice new];
         Dice *dice2 = [Dice new];
         Dice *dice3 = [Dice new];
         Dice *dice4 = [Dice new];
         Dice *dice5 = [Dice new];
-        
+        controller.allDices = [[NSArray alloc] initWithObjects:dice1, dice2, dice3, dice4, dice5, nil];
+
         // When a user inputs the word roll, randomize the values and print them
         NSString *user_input = @"";
         int flag = 0;
         while (flag == 0) {
-            user_input = [InputCollector inputForPrompt:@"> "];
+            user_input = [InputCollector inputForPrompt:@"Enter comand: "];
             if ([user_input isEqualToString:@"roll"]) {
-                // randomize their values
-                int dice1Value = [dice1 randomizeValue];
-                int dice2Value = [dice2 randomizeValue];
-                int dice3Value = [dice3 randomizeValue];
-                int dice4Value = [dice4 randomizeValue];
-                int dice5Value = [dice5 randomizeValue];
+                // allow the user to input dice indexes to hold them
+                user_input= [InputCollector inputForPrompt:@"How many dices to hold: "];
+                int cnt = [user_input intValue];
+                [controller holdDice:cnt];
                 
-                // and print them
-                [InputCollector printToPrompt: [dice1 convertValueToUnicodeSymbols:dice1Value]];
-                [InputCollector printToPrompt: [dice2 convertValueToUnicodeSymbols:dice2Value]];
-                [InputCollector printToPrompt: [dice3 convertValueToUnicodeSymbols:dice3Value]];
-                [InputCollector printToPrompt: [dice4 convertValueToUnicodeSymbols:dice4Value]];
-                [InputCollector printToPrompt: [dice5 convertValueToUnicodeSymbols:dice5Value]];
+                
+                NSString *symbols_as_string = @"";
+                for (Dice *tempDice in [controller heldDices]) {
+                    int tempValue = [tempDice randomizeValue];
+                    NSString *tempDiceSymbol = [tempDice convertValueToUnicodeSymbols:tempValue];
+                    
+                    // print dices using bracketing [] to indicate which dice have been "held"
+                    NSString *stringToAppend;
+                    if ([tempDice isEqualTo:[controller heldDices].lastObject]) {
+                        stringToAppend = tempDiceSymbol;
+                    } else {
+                        stringToAppend = [NSString stringWithFormat:@"%@, ", tempDiceSymbol];
+                    }
+                    symbols_as_string = [symbols_as_string stringByAppendingString:stringToAppend];
+                }
+                NSString *result = [NSString stringWithFormat:@"[%@]", symbols_as_string];
+                [InputCollector printToPrompt:result];
             } else {
                 flag = 1;
             }

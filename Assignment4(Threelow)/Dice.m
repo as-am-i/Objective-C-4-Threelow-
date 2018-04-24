@@ -14,6 +14,10 @@
     self.currentValue = [[NSNumber numberWithInt:arc4random_uniform(6) + 1] intValue];
 }
 
+- (void) alwaysThree{
+    self.currentValue = 3;
+}
+
 - (NSString *) convertValueToUnicodeSymbols:(int)value{
     NSString *symbol = @"🐸";
     switch (value) {

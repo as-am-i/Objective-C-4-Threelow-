@@ -14,6 +14,7 @@
 @property BOOL isHeld;
 
 - (void) randomizeValue;
+- (void) alwaysThree;
 - (NSString *) convertValueToUnicodeSymbols:(int)value;
 
 @end

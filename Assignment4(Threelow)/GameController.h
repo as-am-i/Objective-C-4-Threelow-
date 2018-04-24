@@ -20,5 +20,6 @@
 - (void) resetDice;
 - (NSString *) calculateScores;
 - (NSString *) printAllDices;
+- (NSString *) cheatToWin;
 
 @end

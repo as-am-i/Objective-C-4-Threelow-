@@ -58,7 +58,6 @@
 
 - (NSString *) printAllDices{
     self.rolls++;
-    
     NSString *symbols_as_string = @"";
     NSString *stringToAppend = @"";
     int index = 1;
@@ -83,6 +82,34 @@
             }
             index++;
         }
+        symbols_as_string = [symbols_as_string stringByAppendingString:stringToAppend];
+    }
+    NSString *result = [NSString stringWithFormat:@"Dices: [%@]", symbols_as_string];
+    return result;
+}
+
+- (NSString *) cheatToWin{
+    self.rolls++;
+    NSString *symbols_as_string = @"";
+    NSString *stringToAppend = @"";
+    int index = 1;
+    for (Dice *tempDice in [self allDices]) {
+        [tempDice alwaysThree];
+        NSString *tempDiceSymbol = [tempDice convertValueToUnicodeSymbols:[tempDice currentValue]];
+        if ([tempDice isHeld] == NO) {
+            if ([tempDice isEqualTo:[self allDices].lastObject]) {
+                stringToAppend = [NSString stringWithFormat:@"%d: %@", index, tempDiceSymbol];
+            } else {
+                stringToAppend = [NSString stringWithFormat:@"%d: %@, ", index, tempDiceSymbol];
+            }
+        } else {
+            if ([tempDice isEqualTo:[self allDices].lastObject]) {
+                stringToAppend = [NSString stringWithFormat:@"%d: [%@]",  index, tempDiceSymbol];
+            } else {
+                stringToAppend = [NSString stringWithFormat:@"%d: [%@], ", index, tempDiceSymbol];
+            }
+        }
+        index++;
         symbols_as_string = [symbols_as_string stringByAppendingString:stringToAppend];
     }
     NSString *result = [NSString stringWithFormat:@"Dices: [%@]", symbols_as_string];

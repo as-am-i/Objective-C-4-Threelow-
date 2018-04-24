@@ -43,6 +43,13 @@ int main(int argc, const char * argv[]) {
                 }
             } else if ([user_input isEqualToString:@"reset"]) {
                 [controller resetDice];
+            } else if ([user_input isEqualToString:@"rolll"] || [user_input isEqualToString:@"roIl"]) {
+                [InputCollector printToPrompt:[controller cheatToWin]];
+                [InputCollector printToPrompt:[controller calculateScores]];
+                BOOL isSelected = NO;
+                while (isSelected == NO) {
+                    isSelected = [controller holdDie:[InputCollector inputForPrompt:@"Enter the index of dices to hold/unhold: "]];
+                }
             } else {
                 flag = 1;
             }

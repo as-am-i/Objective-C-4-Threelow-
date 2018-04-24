@@ -33,25 +33,28 @@ int main(int argc, const char * argv[]) {
                 // allow the user to input dice indexes to hold them
                 user_input= [InputCollector inputForPrompt:@"How many dices to hold: "];
                 int cnt = [user_input intValue];
-                [controller holdDice:cnt];
-                
-                
-                NSString *symbols_as_string = @"";
-                for (Dice *tempDice in [controller heldDices]) {
-                    int tempValue = [tempDice randomizeValue];
-                    NSString *tempDiceSymbol = [tempDice convertValueToUnicodeSymbols:tempValue];
+                if (cnt > 5 || cnt <= 0) {
+                    [InputCollector printToPrompt:@"Invalid number"];
+                } else {
+                    [controller holdDice:cnt];
                     
-                    // print dices using bracketing [] to indicate which dice have been "held"
-                    NSString *stringToAppend;
-                    if ([tempDice isEqualTo:[controller heldDices].lastObject]) {
-                        stringToAppend = tempDiceSymbol;
-                    } else {
-                        stringToAppend = [NSString stringWithFormat:@"%@, ", tempDiceSymbol];
+                    NSString *symbols_as_string = @"";
+                    for (Dice *tempDice in [controller heldDices]) {
+                        int tempValue = [tempDice randomizeValue];
+                        NSString *tempDiceSymbol = [tempDice convertValueToUnicodeSymbols:tempValue];
+                        
+                        // print dices using bracketing [] to indicate which dice have been "held"
+                        NSString *stringToAppend;
+                        if ([tempDice isEqualTo:[controller heldDices].lastObject]) {
+                            stringToAppend = tempDiceSymbol;
+                        } else {
+                            stringToAppend = [NSString stringWithFormat:@"%@, ", tempDiceSymbol];
+                        }
+                        symbols_as_string = [symbols_as_string stringByAppendingString:stringToAppend];
                     }
-                    symbols_as_string = [symbols_as_string stringByAppendingString:stringToAppend];
+                    NSString *result = [NSString stringWithFormat:@"[%@]", symbols_as_string];
+                    [InputCollector printToPrompt:result];
                 }
-                NSString *result = [NSString stringWithFormat:@"[%@]", symbols_as_string];
-                [InputCollector printToPrompt:result];
             } else {
                 flag = 1;
             }

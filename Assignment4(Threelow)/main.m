@@ -24,49 +24,22 @@ int main(int argc, const char * argv[]) {
         Dice *dice5 = [Dice new];
         controller.allDices = [[NSArray alloc] initWithObjects:dice1, dice2, dice3, dice4, dice5, nil];
 
-        // When a user inputs the word roll, randomize the values and print them
         NSString *user_input = @"";
         int flag = 0;
+        
         while (flag == 0) {
-            user_input = [InputCollector inputForPrompt:@"Enter comand: "];
+            user_input = [InputCollector inputForPrompt:@"Enter comand (roll/reset): "];
             if ([user_input isEqualToString:@"roll"]) {
-                // roll and print them
-                NSString *symbols_as_string = @"";
-                NSString *stringToAppend = @"";
-                int index = 0;
-                for (Dice *tempDice in [controller allDices]) {
-                    if ([tempDice isHeld] == NO) {
-                        [tempDice randomizeValue];
-                        NSString *tempDiceSymbol = [tempDice convertValueToUnicodeSymbols:[tempDice currentValue]];
-                        
-                        if ([tempDice isEqualTo:[controller allDices].lastObject]) {
-                            stringToAppend = [NSString stringWithFormat:@"%d: %@", index, tempDiceSymbol];
-                        } else {
-                            stringToAppend = [NSString stringWithFormat:@"%d: %@, ", index, tempDiceSymbol];
-                        }
-                        index++;
-                    } else {
-                        // print dices using bracketing [] to indicate which dice have been "held"
-                        NSString *tempDiceSymbol = [tempDice convertValueToUnicodeSymbols:[tempDice currentValue]];
-                        if ([tempDice isEqualTo:[controller allDices].lastObject]) {
-                            stringToAppend = [NSString stringWithFormat:@"%d: [%@]",  index, tempDiceSymbol];
-                        } else {
-                            stringToAppend = [NSString stringWithFormat:@"%d: [%@], ", index, tempDiceSymbol];
-                        }
-                        index++;
-                    }
-                    symbols_as_string = [symbols_as_string stringByAppendingString:stringToAppend];
-                }
-                NSString *result = [NSString stringWithFormat:@"[%@]", symbols_as_string];
-                [InputCollector printToPrompt:result];
+                // roll and print
+                [InputCollector printToPrompt:[controller printAllDices]];
                 
-                // allow the user to input dice indexes to hold them
-                user_input= [InputCollector inputForPrompt:@"Enter the index of dices to hold: "];
-                int indexOfDice = [user_input intValue];
-                if (indexOfDice > 4 || indexOfDice < 0) {
-                    [InputCollector printToPrompt:@"Invalid number"];
-                } else {
-                    [controller holdDie:indexOfDice];
+                // calculates scores
+                [InputCollector printToPrompt:[controller calculateScores]];
+                
+                // let user hold dices
+                BOOL isSelected = NO;
+                while (isSelected == NO) {
+                    isSelected = [controller holdDie:[InputCollector inputForPrompt:@"Enter the index of dices to hold/unhold: "]];
                 }
             } else if ([user_input isEqualToString:@"reset"]) {
                 [controller resetDice];

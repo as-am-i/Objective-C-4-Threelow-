@@ -11,10 +11,14 @@
 @interface GameController : NSObject
 
 @property NSArray *allDices;
-//@property NSMutableArray *heldDices;
+@property NSMutableArray *heldDices;
+
+@property int rolls;
 
 - (instancetype) init;
-- (void) holdDie:(int)indexOfDice;
+- (BOOL) holdDie:(NSString *)userInput;
 - (void) resetDice;
+- (NSString *) calculateScores;
+- (NSString *) printAllDices;
 
 @end

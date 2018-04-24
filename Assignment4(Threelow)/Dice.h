@@ -11,8 +11,9 @@
 @interface Dice : NSObject
 
 @property int currentValue;
+@property BOOL isHeld;
 
-- (int) randomizeValue;
+- (void) randomizeValue;
 - (NSString *) convertValueToUnicodeSymbols:(int)value;
 
 @end

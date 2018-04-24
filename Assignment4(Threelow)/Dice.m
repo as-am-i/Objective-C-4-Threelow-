@@ -10,8 +10,8 @@
 
 @implementation Dice
 
-- (int) randomizeValue{
-    return [[NSNumber numberWithInt:arc4random_uniform(6) + 1] intValue];
+- (void) randomizeValue{
+    self.currentValue = [[NSNumber numberWithInt:arc4random_uniform(6) + 1] intValue];
 }
 
 - (NSString *) convertValueToUnicodeSymbols:(int)value{

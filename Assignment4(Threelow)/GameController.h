@@ -11,9 +11,10 @@
 @interface GameController : NSObject
 
 @property NSArray *allDices;
-@property NSMutableArray *heldDices;
+//@property NSMutableArray *heldDices;
 
 - (instancetype) init;
-- (void) holdDice:(int)numberOfDices;
+- (void) holdDie:(int)indexOfDice;
+- (void) resetDice;
 
 @end

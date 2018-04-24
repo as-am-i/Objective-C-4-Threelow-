@@ -7,6 +7,7 @@
 //
 
 #import "GameController.h"
+#import "Dice.h"
 
 @implementation GameController
 
@@ -14,14 +15,18 @@
     self = [super init];
     if (self) {
         _allDices = [NSArray new];
-        _heldDices = [NSMutableArray array];
     }
     return self;
 }
 
-- (void) holdDice:(int)numberOfDices{
-    for (int num = 0; num < numberOfDices; num++) {
-        [[self heldDices] addObject:[[self allDices] objectAtIndex:num]];
+- (void) holdDie:(int)indexOfDice{
+    Dice *dice = [[self allDices] objectAtIndex:indexOfDice];
+    dice.isHeld = ![dice isHeld];
+}
+
+- (void) resetDice{
+    for (Dice *dice in [self allDices]) {
+        dice.isHeld = NO;
     }
 }
 

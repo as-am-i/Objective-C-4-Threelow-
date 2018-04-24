@@ -21,20 +21,25 @@
 }
 
 - (BOOL) holdDie:(NSString *)userInput{
-    int indexOfDice = [userInput intValue] - 1;
     BOOL isSelected = NO;
+    int indexOfDice = -1;
+    for (NSUInteger i = 0; i < userInput.length; i++) {
+        NSString *charOfUserInput = [userInput substringWithRange:NSMakeRange(i, 1)];
+        indexOfDice = [charOfUserInput intValue] - 1;
     
-    if (indexOfDice < 5 && indexOfDice >= 0) {
-        Dice *dice = [[self allDices] objectAtIndex:indexOfDice];
-        dice.isHeld = ![dice isHeld];
-        
-        if ([dice isHeld] == YES) {
-            [[self heldDices] addObject:dice];
-            isSelected = YES;
-        } else {
-            [[self heldDices] removeObject:dice];
+        // if userInput contains any valid indexes of dices
+        if (indexOfDice < 5 && indexOfDice >= 0) {
+            Dice *dice = [[self allDices] objectAtIndex:indexOfDice];
+            dice.isHeld = ![dice isHeld];
+            
+            if ([dice isHeld] == YES) {
+                [[self heldDices] addObject:dice];
+                isSelected = YES;
+            } else {
+                [[self heldDices] removeObject:dice];
+            }
         }
-    } 
+    }
     return isSelected;
 }
 
@@ -57,7 +62,9 @@
 }
 
 - (NSString *) printAllDices{
-    self.rolls++;
+    if ([[self heldDices] count] != 5) {
+        self.rolls++;
+    }
     NSString *symbols_as_string = @"";
     NSString *stringToAppend = @"";
     int index = 1;

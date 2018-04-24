@@ -40,6 +40,11 @@ int main(int argc, const char * argv[]) {
                 BOOL isSelected = NO;
                 while (isSelected == NO) {
                     isSelected = [controller holdDie:[InputCollector inputForPrompt:@"Enter the index of dices to hold/unhold: "]];
+                    
+                    if ([[controller heldDices] count] == 5) {
+                        // all dices are held
+                        flag = 1;
+                    }
                 }
             } else if ([user_input isEqualToString:@"reset"]) {
                 [controller resetDice];
@@ -54,9 +59,9 @@ int main(int argc, const char * argv[]) {
                 flag = 1;
             }
         }
-
-        
-        
+        [InputCollector printToPrompt:@"Your final scores:"];
+        [InputCollector printToPrompt:[controller printAllDices]];
+        [InputCollector printToPrompt:[controller calculateScores]];
     }
     return 0;
 }

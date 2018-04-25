@@ -22,22 +22,22 @@
     NSString *symbol = @"🐸";
     switch (value) {
         case 1:
-            symbol = @"⚀";
+            symbol = @"1️⃣";
             break;
         case 2:
-            symbol =  @"⚁";
+            symbol =  @"2️⃣";
             break;
         case 3:
-            symbol =  @"⚂";
+            symbol =  @"3️⃣";
             break;
         case 4:
-            symbol =  @"⚃";
+            symbol =  @"4️⃣";
             break;
         case 5:
-            symbol =  @"⚄";
+            symbol =  @"5️⃣";
             break;
         case 6:
-            symbol =  @"⚅";
+            symbol =  @"6️⃣";
             break;
         default:
             break;

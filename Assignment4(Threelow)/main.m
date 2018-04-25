@@ -28,7 +28,7 @@ int main(int argc, const char * argv[]) {
         int flag = 0;
         
         while (flag == 0) {
-            user_input = [InputCollector inputForPrompt:@"Enter comand (roll/reset): "];
+            user_input = [InputCollector inputForPrompt:@"Enter comand (roll/reset/exit): "];
             if ([user_input isEqualToString:@"roll"]) {
                 // roll and print
                 [InputCollector printToPrompt:[controller printAllDices]];
@@ -43,6 +43,9 @@ int main(int argc, const char * argv[]) {
                     
                     if ([[controller heldDices] count] == 5) {
                         // all dices are held
+                        [InputCollector printToPrompt:@"ALL DICES ARE HELD!\nYour final scores:"];
+                        [InputCollector printToPrompt:[controller printAllDices]];
+                        [InputCollector printToPrompt:[controller calculateScores]];
                         flag = 1;
                     }
                 }
@@ -55,13 +58,14 @@ int main(int argc, const char * argv[]) {
                 while (isSelected == NO) {
                     isSelected = [controller holdDie:[InputCollector inputForPrompt:@"Enter the index of dices to hold/unhold: "]];
                 }
-            } else {
+            } else if ([user_input isEqualToString:@"exit"]){
                 flag = 1;
+            } else if ([user_input isEqualToString:@"frog"]) {
+                [InputCollector printToPrompt:@"🐸: Hi, did you call me?"];
+            } else {
+                [InputCollector printToPrompt:@"Error: command not found"];
             }
         }
-        [InputCollector printToPrompt:@"Your final scores:"];
-        [InputCollector printToPrompt:[controller printAllDices]];
-        [InputCollector printToPrompt:[controller calculateScores]];
     }
     return 0;
 }

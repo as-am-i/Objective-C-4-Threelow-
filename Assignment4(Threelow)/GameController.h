@@ -14,8 +14,13 @@
 @property NSMutableArray *heldDices;
 
 @property int rolls;
+@property int rounds;
 
 - (instancetype) init;
++ (instancetype) setUpGame;
+- (NSString *) finishGame;
+- (int) isStartingNewGame:(NSString *)user_input;
+
 - (BOOL) holdDie:(NSString *)userInput;
 - (void) resetDice;
 - (NSString *) calculateScores;

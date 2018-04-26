@@ -20,6 +20,40 @@
     return self;
 }
 
++ (instancetype) setUpGame{
+    // GameController instance
+    GameController *controller = [GameController new];
+    
+    controller.rounds++;
+    
+    // Make five instances of the Dice class
+    Dice *dice1 = [Dice new];
+    Dice *dice2 = [Dice new];
+    Dice *dice3 = [Dice new];
+    Dice *dice4 = [Dice new];
+    Dice *dice5 = [Dice new];
+    controller.allDices = [[NSArray alloc] initWithObjects:dice1, dice2, dice3, dice4, dice5, nil];
+    
+    return controller;
+}
+
+- (NSString *) finishGame{
+    NSString *result = [NSString stringWithFormat:@"ALL DICES ARE HELD!\nYour final scores:\n%@\n%@", [self printAllDices], [self calculateScores]] ;
+    return result;
+}
+
+- (int) isStartingNewGame:(NSString *)user_input{
+    int flag;
+    if ([user_input isEqualToString:@"y"] || [user_input isEqualToString:@"yes"]) {
+        // new game starts
+        [self resetDice];
+        flag = 0;
+    } else {
+        flag = 1;
+    }
+    return flag;
+}
+
 - (BOOL) holdDie:(NSString *)userInput{
     BOOL isSelected = NO;
     int indexOfDice = -1;
@@ -49,6 +83,7 @@
         dice.isHeld = NO;
     }
     [[self heldDices] removeAllObjects];
+    self.rounds++;
 }
 
 - (NSString *) calculateScores{
@@ -58,7 +93,7 @@
             sum += [dice currentValue]; // Threes are worth 0 points
         }
     }
-    return [NSString stringWithFormat:@"Current scores: %d\nRolls: %d", sum, [self rolls]];
+    return [NSString stringWithFormat:@"Round: %d\nCurrent scores: %d\nRolls: %d", [self rounds], sum, [self rolls]];
 }
 
 - (NSString *) printAllDices{
